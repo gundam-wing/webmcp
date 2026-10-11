@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="origin-trial"
+      content="Ak3umSddN/Dk+dtv8ksyQMcavUx4cSue64F1Q2oHH857IjYAyTYoLyHoxlVpWDuVSWCQNECD6b7IOgY7N6xzRgIAAABVeyJvcmlnaW4iOiJodHRwczovL2d1bmRhbS13aW5nLmdpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiV2ViTUNQIiwiZXhwaXJ5IjoxODA2MzY0ODAwfQ=="
+    />
+    <title>WebMCP todo demo</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">WebMCP demo</p>
+        <h1>Shared todo list</h1>
+        <p class="lede">
+          The buttons and the registered tools call the same functions. An agent
+          can read and update this list, and a clear waits for a person.
+        </p>
+        <div id="webmcp-status" role="status"></div>
+      </header>
+
+      <section class="panel" aria-labelledby="list-heading">
+        <div class="panel-head">
+          <h2 id="list-heading">Todos</h2>
+          <p id="summary">No todos yet.</p>
+        </div>
+        <form id="add-form">
+          <label for="title">New todo</label>
+          <div class="add-row">
+            <input id="title" name="title" type="text" maxlength="120" autocomplete="off" placeholder="Add something the agent can see" />
+            <button type="submit">Add</button>
+          </div>
+          <p id="form-error" role="status"></p>
+        </form>
+        <ul id="list"></ul>
+        <p id="empty">The list is empty.</p>
+        <div class="clear-row">
+          <button id="clear-all" type="button">Clear all</button>
+        </div>
+        <section id="confirm" hidden aria-live="polite">
+          <p id="confirm-text"></p>
+          <div class="confirm-actions">
+            <button id="confirm-clear" type="button">Confirm clear</button>
+            <button id="cancel-clear" type="button">Cancel</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel log-panel" aria-labelledby="log-heading">
+        <div class="panel-head">
+          <h2 id="log-heading">Activity</h2>
+          <p>Tool calls land here while an agent drives the page. Clicks are tagged page.</p>
+        </div>
+        <p id="log-empty">No tool calls yet. Use DevTools → Application → WebMCP, or ask an agent to call a tool.</p>
+        <ol id="log"></ol>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
