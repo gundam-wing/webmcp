@@ -28,6 +28,22 @@ The same switch from the command line is `--enable-features=WebMCP`.
 
 An [origin trial](https://developer.chrome.com/blog/ai-webmcp-origin-trial) is the alternative when you cannot ask visitors to change flags. If `document.modelContext` is missing, the page says so and repeats these steps.
 
+## Live site
+
+https://gundam-wing.github.io/webmcp/
+
+Pushes to `main` build with Vite `base` set to `/webmcp/` and deploy with GitHub Actions (`actions/deploy-pages`). In the repository settings, **Pages → Build and deployment → Source** has to be **GitHub Actions**. Until this pull request is merged, that workflow does not run.
+
+`index.html` includes a WebMCP origin-trial token for `https://gundam-wing.github.io`. Chrome stores that origin as `https://gundam-wing.github.io:443`. The feature name is `WebMCP`, and the token expires at **2027-03-30 00:00:00 UTC**. The same meta tag is present on localhost, but Chrome ignores it there because the origin does not match, so local development still uses the flag above.
+
+To check the token on the live site, open it in Chrome 149 through 162 and use DevTools:
+
+1. Open the **Application** tab.
+2. In the sidebar, under **Frames**, select **top**.
+3. Select **Origin Trials**.
+
+WebMCP should appear with a valid token. If it does not, the host is not exactly `gundam-wing.github.io`. When the token is valid, `document.modelContext` is available without the testing flag, and **Application → WebMCP** lists the tools.
+
 ## Run it
 
 ```bash
