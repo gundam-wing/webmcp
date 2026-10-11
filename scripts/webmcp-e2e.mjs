@@ -28,9 +28,16 @@ function chromeMajor(version) {
   return match ? Number(match[1]) : 0;
 }
 
+// A thrown execute() is status Error. Chrome reports the Error text on
+// exception.description; errorText is often empty.
 function asText(result) {
-  const value = result?.output ?? result?.errorText ?? "";
-  return typeof value === "string" ? value : JSON.stringify(value);
+  const parts = [];
+  if (typeof result?.output === "string") parts.push(result.output);
+  else if (result?.output != null) parts.push(JSON.stringify(result.output));
+  if (typeof result?.errorText === "string" && result.errorText) parts.push(result.errorText);
+  const description = result?.exception?.description;
+  if (typeof description === "string" && description) parts.push(description);
+  return parts.join("\n");
 }
 
 // Chrome 154 reports Completed. Earlier WebMCP builds reported Success.
@@ -199,7 +206,10 @@ async function verifyAgentPath(url) {
 
     const missing = await callTool(page, "toggle_todo", { id: "missing" });
     assert(missing.status === "Error", `Unknown id should fail the tool call, got ${missing.status} ${asText(missing)}`);
-    assert(asText(missing).includes('No todo with id "missing".'), asText(missing));
+    assert(
+      asText(missing).includes('No todo with id "missing".'),
+      `error payload: ${asText(missing) || JSON.stringify(missing)}`,
+    );
     const stillThere = await page.$('#list li[data-id="t1"][data-done="true"]');
     assert(stillThere, "A failed toggle changed the list.");
 

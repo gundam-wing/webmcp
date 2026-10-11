@@ -53,6 +53,8 @@ With the flag on and this page open:
 
 `clear_todos` only arms the confirmation banner. Click **Confirm clear** or **Cancel** on the page to finish it. That step is deliberately not a tool, so an agent cannot skip the person at the keyboard.
 
+A tool that throws, such as `toggle_todo` with an unknown id, is an error in the Invoked tools log and on the page. The list is left as it was.
+
 DevTools for agents can also list and execute these tools (`list_webmcp_tools`, `execute_webmcp_tool`). Current Chrome docs mention both `--categoryExperimentalWebmcp` and `--categoryWebMCP` for that agent category; the Application panel above does not need either one. The category is documented for Chrome 149+ with WebMCP enabled.
 
 ## Layout
